@@ -43,7 +43,7 @@ func main() {
 		{
 			Message:     "What color?",
 			Name:        "color",
-			Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+			Multiselect: &prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
 		},
 		{
 			Message:   "What is your age?",
