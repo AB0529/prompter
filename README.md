@@ -72,11 +72,11 @@ func main() {
 To ask questions, the prompter will need a slice of pointer questions to ask. Like so:
 ```go
 questions := []*prompter.Question{
-		{
-			Message:   "What is your name?",
-			Name:      "name",
-			Validator: prompter.Required,
-        },
+    {
+        Message:   "What is your name?",
+        Name:      "name",
+        Validator: prompter.Required,
+    },
 }
 ```
 A `Question` type has fields you can provide.
