@@ -9,13 +9,13 @@ import (
 // Multiselector handles getting a result from a multiselector type question
 func Multiselector(q *Question) interface{} {
 	// Default answer is the first option
-	answer := q.Multiselect[0]
+	answer := q.Type.(Multiselect)[0]
 
 	// Open keyboard event to get arrow keys
 	keyboard.Open()
 	defer func() { keyboard.Close() }()
 
-	i := len(q.Multiselect) - 1
+	i := len(q.Type.(Multiselect)) - 1
 	// Move cursor up one
 	fmt.Print("\033[A")
 
@@ -39,7 +39,7 @@ loop:
 			break
 			// Move arrow key down, and approitate answer
 		case keyboard.KeyArrowDown:
-			if i > len(q.Multiselect)-1 {
+			if i > len(q.Type.(Multiselect))-1 {
 				i--
 				continue
 			}
@@ -49,10 +49,10 @@ loop:
 		default:
 			// Load the answer on any other keypress
 			fmt.Print("\r")
-			for j := len(q.Multiselect); j > i; j-- {
+			for j := len(q.Type.(Multiselect)); j > i; j-- {
 				fmt.Println()
 			}
-			answer = q.Multiselect[i]
+			answer = q.Type.(Multiselect)[i]
 			fmt.Println(Magenta(answer))
 			break loop
 		}

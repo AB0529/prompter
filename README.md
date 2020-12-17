@@ -43,7 +43,7 @@ func main() {
 		{
 			Message:     "What color?",
 			Name:        "color",
-			Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+			Type: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
 		},
 		{
 			Message:   "What is your age?",
@@ -87,9 +87,12 @@ A `Question` type has fields you can provide.
 - `Validator`
     - An optional field passed into the question.
     - See [Validators](#Validators).
-- `Multiselect`
-    - An optional field passed into the question.
-    - See [Multiselect](#Multiselect).
+- `Type`
+    - `Multiselect`
+        - An optional field passed into the question.
+        - See [Multiselect](#Multiselect).
+    - `Password`
+        - Hides an input being typed
 
 ## Validators
 A validator is a function that will be called and tested on an input. If it fails, the question will simply be asked again until it passes.
@@ -122,7 +125,7 @@ questions := []*prompter.Question{
     {
         Message: "What color?",
         Name: "color",
-        Multiselect: &prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+        Type: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
     },
 }
 ```
