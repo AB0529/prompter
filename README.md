@@ -1,13 +1,18 @@
 # Prompter
 
 This is a simple command line based user interface written in Go.
-
 # Table of Contents
 1. [Quick Start](#quick_start)
 1. [Usage](#usage)
     - [Forming Quesitons](#forming-questions)
+        -   [Validators](#validators)
+        - [Multiselect](#multiselect)
     - [Getting Answers](#getting-answers)
+        - [Structs](#ex-1-answer-structs)
+        - [Maps](#ex-2-answer-maps)
 
+---
+![showcase-img](https://raw.githubusercontent.com/AB0529/lazy-meets/master/Showcase-Image.png)
 # Quick Start
 Download the package
 ```sh
