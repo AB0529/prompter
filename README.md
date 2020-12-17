@@ -33,25 +33,24 @@ import (
 	"github.com/AB0529/prompter"
 )
 
-questions := []*prompter.Question{
-    {
-        Message:   "What is your name?",
-        Name:      "name",
-        Validator: prompter.Required,
-    },
-    {
-        Message:     "What color?",
-        Name:        "color",
-        Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
-    },
-    {
-        Message:   "What is your age?",
-        Name:      "age",
-        Validator: prompter.IsNumeric,
-    },
-}
-
 func main() {
+        questions := []*prompter.Question{
+        {
+            Message:   "What is your name?",
+            Name:      "name",
+            Validator: prompter.Required,
+        },
+        {
+            Message:     "What color?",
+            Name:        "color",
+            Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+        },
+        {
+            Message:   "What is your age?",
+            Name:      "age",
+            Validator: prompter.IsNumeric,
+        },
+    }
     answers := struct {
         Name  string
         Color string
