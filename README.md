@@ -34,28 +34,28 @@ import (
 )
 
 func main() {
-        questions := []*prompter.Question{
-        {
-            Message:   "What is your name?",
-            Name:      "name",
-            Validator: prompter.Required,
-        },
-        {
-            Message:     "What color?",
-            Name:        "color",
-            Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
-        },
-        {
-            Message:   "What is your age?",
-            Name:      "age",
-            Validator: prompter.IsNumeric,
-        },
-    }
-    answers := struct {
-        Name  string
-        Color string
-        Age   int
-    }{}
+	questions := []*prompter.Question{
+		{
+			Message:   "What is your name?",
+			Name:      "name",
+			Validator: prompter.Required,
+		},
+		{
+			Message:     "What color?",
+			Name:        "color",
+			Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+		},
+		{
+			Message:   "What is your age?",
+			Name:      "age",
+			Validator: prompter.IsNumeric,
+		},
+	}
+	answers := struct {
+		Name  string
+		Color string
+		Age   int
+	}{}
 
 	err := prompter.Ask(&prompter.Prompt{Questions: questions}, &answers)
 
