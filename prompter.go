@@ -7,7 +7,7 @@ import (
 )
 
 // Multiselect select a single value in a list of multiple
-type Multiselect []string
+type Multiselect []*string
 
 // Validator validates function passed into it, MUST RETURN ERROR
 type Validator func(ans interface{}) error

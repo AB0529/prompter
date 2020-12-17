@@ -122,7 +122,7 @@ questions := []*prompter.Question{
     {
         Message: "What color?",
         Name: "color",
-        Multiselect: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+        Multiselect: &prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
     },
 }
 ```
