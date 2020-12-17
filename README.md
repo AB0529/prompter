@@ -1,6 +1,8 @@
 # Prompter
 
 This is a simple command line based user interface written in Go.
+
+Heavily insprired by [Survey](https://github.com/AlecAivazis/survey).
 # Table of Contents
 1. [Quick Start](#quick_start)
 1. [Usage](#usage)
