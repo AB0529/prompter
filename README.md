@@ -12,7 +12,11 @@ This is a simple command line based user interface written in Go.
         - [Maps](#ex-2-answer-maps)
 
 ---
-![showcase-img](https://raw.githubusercontent.com/AB0529/lazy-meets/master/Showcase-Image.png)
+
+<p align="center">
+<img src="https://github.com/AB0529/prompter/raw/main/Showcase-Image.png" data-canonical-src="https://github.com/AB0529/prompter/raw/main/Showcase-Image.png" width="512" />
+</p>
+
 # Quick Start
 Download the package
 ```sh
