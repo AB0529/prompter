@@ -5,8 +5,8 @@ This is a simple command line based user interface written in Go.
 # Table of Contents
 1. [Quick Start](#quick_start)
 1. [Usage](#usage)
-    - [Forming Quesitons](#forming_questions)
-    - [Getting Answers](#getting_answers)
+    - [Forming Quesitons](#forming-questions)
+    - [Getting Answers](#getting-answers)
 
 # Quick Start
 Download the package
