@@ -1,7 +1,6 @@
 package prompter
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
@@ -15,7 +14,9 @@ func ClearScreen() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	} else {
-		// Everything else
-		fmt.Println("\033[2J")
+		// Mac and Linux
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
 	}
 }
