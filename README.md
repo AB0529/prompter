@@ -38,7 +38,7 @@ func main() {
 		{
 			Message:   "What is your name?",
 			Name:      "name",
-			Validator: prompter.Required,
+			Validator: []prompter.Validator{prompter.Required},
 		},
 		{
 			Message:     "What color?",
@@ -48,7 +48,7 @@ func main() {
 		{
 			Message:   "What is your age?",
 			Name:      "age",
-			Validator: prompter.IsNumeric,
+			Validator: []prompter.Validator{prompter.Required, prompter.IsNumeric},
 		},
 	}
 	answers := struct {
@@ -75,7 +75,7 @@ questions := []*prompter.Question{
     {
         Message:   "What is your name?",
         Name:      "name",
-        Validator: prompter.Required,
+		Validator: []prompter.Validator{prompter.Required},
     },
 }
 ```

@@ -23,7 +23,7 @@ type Validator func(ans interface{}) error
 type Question struct {
 	Message   string      `json:"message" binding:"required"`
 	Name      string      `json:"name" binding:"required"`
-	Validator Validator   `json:"validator,omitempty"`
+	Validator []Validator `json:"validator,omitempty"`
 	Type      interface{} `json:"type,omitempty"`
 }
 
@@ -64,28 +64,36 @@ func Ask(p *Prompt, v interface{}) error {
 			WriteAnswer(v, q.Name, Multiselector(q))
 			continue
 		case Password:
-			err = q.Validator(answer)
+		getPasswordAnswer:
+			answer, err = PasswordSelector(q, err)
+			for _, val := range q.Validator {
+				err = val(answer)
 
-			// Handle validator
-			if q.Validator != nil && err != nil {
-				goto getAnswer
+				// Handle validator
+				if q.Validator != nil && err != nil {
+					goto getPasswordAnswer
+				}
 			}
-			// Load the answer
-			answer = PasswordSelector(q)
+
 			WriteAnswer(v, q.Name, answer)
 			fmt.Println()
 			continue
 		}
 
-		// Handle validator
-		if q.Validator != nil && err != nil {
-			goto getAnswer
-		}
-
 	getAnswer:
 		answer = answerFunc(q, scanner, err)
+		for _, val := range q.Validator {
+			err = val(answer)
+
+			// Handle validator
+			if q.Validator != nil && err != nil {
+				goto getAnswer
+			}
+		}
+
 		// Load the answer
 		WriteAnswer(v, q.Name, answer)
+
 	}
 
 	return nil
