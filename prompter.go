@@ -7,7 +7,7 @@ import (
 )
 
 // Multiselect select a single value in a list of multiple
-type Multiselect []*string
+type Multiselect []string
 
 // Validator validates function passed into it, MUST RETURN ERROR
 type Validator func(ans interface{}) error
@@ -42,17 +42,24 @@ func Ask(p *Prompt, v interface{}) error {
 			WriteAnswer(v, q.Name, Multiselector(q))
 			continue
 		}
-
+		// TODO: better error handling
+		var err error
 	getAnswer:
-		answer := func() string {
+		answer := func(err error) string {
 			// Print the question
-			fmt.Print(Purple(q.Message) + "\n" + Red("> "))
+			if err != nil {
+				fmt.Print(Purple(q.Message) + "\n" + fmt.Sprintf("[%s]", White(err.Error())) + Red(" > "))
+			} else {
+				fmt.Print(Purple(q.Message) + "\n" + Red("> "))
+			}
 			scanner.Scan()
 
 			return scanner.Text()
-		}()
+		}(err)
+		err = q.Validator(answer)
+
 		// Handle validator
-		if q.Validator != nil && q.Validator(answer) != nil {
+		if q.Validator != nil && err != nil {
 			goto getAnswer
 		}
 		// Load the answer
