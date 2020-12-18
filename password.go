@@ -3,6 +3,7 @@ package prompter
 import (
 	"fmt"
 
+	"github.com/gookit/color"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -10,9 +11,9 @@ import (
 func PasswordSelector(q *Question, err error) (string, error) {
 	// Print the question
 	if err != nil {
-		fmt.Print(fmt.Sprintf("\n[%s]", White(err.Error())) + Red(" > "))
+		fmt.Print(fmt.Sprintf("\n[%s]", color.White.Sprint(err.Error())) + color.Red.Sprint(" > "))
 	} else {
-		fmt.Print(Purple(q.Message) + "\n" + Red("> "))
+		fmt.Print(color.Cyan.Sprint(q.Message) + "\n" + color.Red.Sprint("> "))
 	}
 
 	password, err := terminal.ReadPassword(0)

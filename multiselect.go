@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/eiannone/keyboard"
+	"github.com/gookit/color"
 )
 
 // Multiselector handles getting a result from a multiselector type question
@@ -17,7 +18,7 @@ func Multiselector(q *Question) interface{} {
 
 	i := len(q.Type.(Multiselect)) - 1
 	// Move cursor up one
-	fmt.Print("\033[A")
+	CursorUp(1)
 
 loop:
 	for {
@@ -30,21 +31,22 @@ loop:
 		switch key {
 		// Move arrow key up, and approitate answer
 		case keyboard.KeyArrowUp:
+			i--
 			if i < 0 {
+				i++
 				continue
 			}
 
-			i--
-			fmt.Print("\033[A")
+			CursorUp(1)
 			break
 			// Move arrow key down, and approitate answer
 		case keyboard.KeyArrowDown:
+			i++
 			if i > len(q.Type.(Multiselect))-1 {
-				i--
+				i = len(q.Type.(Multiselect)) - 1
 				continue
 			}
-			i++
-			fmt.Print("\033[B")
+			CursorDown(1)
 			break
 		default:
 			// Load the answer on any other keypress
@@ -53,7 +55,7 @@ loop:
 				fmt.Println()
 			}
 			answer = q.Type.(Multiselect)[i]
-			fmt.Println(Magenta(answer))
+			fmt.Println(color.Cyan.Sprint(answer))
 			break loop
 		}
 	}
