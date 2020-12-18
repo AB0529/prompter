@@ -1,8 +1,6 @@
-// +build windows
 package prompter
 
 import (
-	"C"
 	"os"
 	"os/exec"
 	"syscall"
