@@ -35,7 +35,7 @@ type Prompt struct {
 // Ask will actually ask the questions and get the answers
 func Ask(p *Prompt, v interface{}) error {
 	var err error
-	var answer string
+	var answer []byte
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for _, q := range p.Questions {
@@ -55,7 +55,7 @@ func Ask(p *Prompt, v interface{}) error {
 		getPasswordAnswer:
 			answer, err = PasswordSelector(q, err)
 			for _, val := range q.Validator {
-				err = val(answer)
+				err = val(string(answer))
 
 				// Handle validator
 				if q.Validator != nil && err != nil {

@@ -7,7 +7,7 @@ import (
 )
 
 // PasswordSelector hides an input
-func PasswordSelector(q *Question, err error) (string, error) {
+func PasswordSelector(q *Question, err error) ([]byte, error) {
 	// Print the question
 	if err != nil {
 		fmt.Print(fmt.Sprintf("\n[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
@@ -19,8 +19,8 @@ func PasswordSelector(q *Question, err error) (string, error) {
 	if err == nil {
 		pass := string(password)
 
-		return pass, nil
+		return []byte(pass), nil
 	}
 
-	return "", err
+	return nil, err
 }
