@@ -30,6 +30,8 @@ loop:
 		}
 		switch key {
 		// Move arrow key up, and approitate answer
+
+		case keyboard.KeyCtrlJ:
 		case keyboard.KeyArrowUp:
 			i--
 			if i < 0 {
@@ -40,6 +42,7 @@ loop:
 			ansi.CursorUp(1)
 			break
 			// Move arrow key down, and approitate answer
+		case keyboard.KeyCtrlK:
 		case keyboard.KeyArrowDown:
 			i++
 			if i > len(q.Type.(Multiselect))-1 {

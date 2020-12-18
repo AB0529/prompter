@@ -2,6 +2,7 @@ package prompter
 
 import (
 	"errors"
+	"net/url"
 	"strconv"
 )
 
@@ -21,6 +22,17 @@ func IsNumeric(val interface{}) error {
 	// Handle non numeric
 	if err != nil {
 		return errors.New("Value is not numeric")
+	}
+
+	return nil
+}
+
+// IsURL makes sure a value is a valid URL
+func IsURL(val interface{}) error {
+	_, err := url.ParseRequestURI(val.(string))
+
+	if err != nil {
+		return errors.New("Value is invalid URL")
 	}
 
 	return nil
