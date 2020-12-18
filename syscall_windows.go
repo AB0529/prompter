@@ -1,4 +1,4 @@
-package ansi
+package prompter
 
 import (
 	"syscall"
