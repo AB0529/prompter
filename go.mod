@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/apoorvam/goterminal v0.0.0-20180523175556-614d345c47e5
+	github.com/bgentry/speakeasy v0.1.0
 	github.com/buger/goterm v0.0.0-20200322175922-2f3e71b85129
 	github.com/eiannone/keyboard v0.0.0-20200508000154-caf4b762e807
 	github.com/gbin/goncurses v0.0.0-20141106211150-34d9399fcea5 // indirect

@@ -2,12 +2,13 @@ package prompter
 
 import (
 	"fmt"
+	"os"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"github.com/bgentry/speakeasy"
 )
 
 // PasswordSelector hides an input
-func PasswordSelector(q *Question, err error) ([]byte, error) {
+func PasswordSelector(q *Question, err error) (string, error) {
 	// Print the question
 	if err != nil {
 		fmt.Print(fmt.Sprintf("\n[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
@@ -15,12 +16,11 @@ func PasswordSelector(q *Question, err error) ([]byte, error) {
 		fmt.Print(Title.Sprint(q.Message) + "\n" + InputChar.Sprint("> "))
 	}
 
-	password, err := terminal.ReadPassword(0)
-	if err == nil {
-		pass := string(password)
+	pass, err := speakeasy.FAsk(os.Stdout, "")
 
-		return []byte(pass), nil
+	if err != nil {
+		return "", err
 	}
 
-	return nil, err
+	return pass, nil
 }
