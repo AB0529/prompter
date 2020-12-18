@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/eiannone/keyboard"
+	"github.com/gookit/color"
+	"github.com/k0kubun/go-ansi"
 )
 
 // Multiselector handles getting a result from a multiselector type question
@@ -17,7 +19,7 @@ func Multiselector(q *Question) interface{} {
 
 	i := len(q.Type.(Multiselect)) - 1
 	// Move cursor up one
-	CursorUp(1)
+	ansi.CursorUp(1)
 
 loop:
 	for {
@@ -26,7 +28,6 @@ loop:
 		if err != nil {
 			panic(err)
 		}
-
 		switch key {
 		// Move arrow key up, and approitate answer
 		case keyboard.KeyArrowUp:
@@ -36,7 +37,7 @@ loop:
 				continue
 			}
 
-			CursorUp(1)
+			ansi.CursorUp(1)
 			break
 			// Move arrow key down, and approitate answer
 		case keyboard.KeyArrowDown:
@@ -45,7 +46,7 @@ loop:
 				i = len(q.Type.(Multiselect)) - 1
 				continue
 			}
-			CursorDown(1)
+			ansi.CursorDown(1)
 			break
 		default:
 			// Load the answer on any other keypress
@@ -54,7 +55,7 @@ loop:
 				fmt.Println()
 			}
 			answer = q.Type.(Multiselect)[i]
-			fmt.Println(MultiselectAnswer.Sprint(answer))
+			fmt.Println(color.Cyan.Sprint(answer))
 			break loop
 		}
 	}

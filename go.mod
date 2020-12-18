@@ -12,7 +12,9 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
+	github.com/nsf/termbox-go v0.0.0-20201124104050-ed494de23a00
 	github.com/rivo/tview v0.0.0-20201204190810-5406288b8e4e
 	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620
-	golang.org/x/sys v0.0.0-20201214210602-f9fddec55a1e
+	golang.org/x/sys v0.0.0-20201218084310-7d0127a74742
+	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf // indirect
 )

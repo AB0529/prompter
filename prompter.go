@@ -32,18 +32,6 @@ type Prompt struct {
 	Questions []*Question
 }
 
-func answerFunc(q *Question, scanner *bufio.Scanner, err error) string {
-	// Print the question
-	if err != nil {
-		fmt.Print(Title.Sprint(q.Message) + "\n" + fmt.Sprintf("[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
-	} else {
-		fmt.Print(Title.Sprint(q.Message) + "\n" + InputChar.Sprint("> "))
-	}
-	scanner.Scan()
-
-	return scanner.Text()
-}
-
 // Ask will actually ask the questions and get the answers
 func Ask(p *Prompt, v interface{}) error {
 	var err error
@@ -81,7 +69,15 @@ func Ask(p *Prompt, v interface{}) error {
 		}
 
 	getAnswer:
-		answer = answerFunc(q, scanner, err)
+		// Print the question
+		if err != nil {
+			fmt.Print(Title.Sprint(q.Message) + "\n" + fmt.Sprintf("[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
+		} else {
+			fmt.Print(Title.Sprint(q.Message) + "\n" + InputChar.Sprint("> "))
+		}
+		scanner.Scan()
+
+		answer := scanner.Text()
 		for _, val := range q.Validator {
 			err = val(answer)
 
