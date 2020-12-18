@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-
-	"github.com/gookit/color"
 )
 
 // TODO:
@@ -37,9 +35,9 @@ type Prompt struct {
 func answerFunc(q *Question, scanner *bufio.Scanner, err error) string {
 	// Print the question
 	if err != nil {
-		fmt.Print(color.Cyan.Sprint(q.Message) + "\n" + fmt.Sprintf("[%s]", color.White.Sprint(err.Error())) + color.Red.Sprint(" > "))
+		fmt.Print(Title.Sprint(q.Message) + "\n" + fmt.Sprintf("[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
 	} else {
-		fmt.Print(color.Cyan.Sprint(q.Message) + "\n" + color.Red.Sprint("> "))
+		fmt.Print(Title.Sprint(q.Message) + "\n" + InputChar.Sprint("> "))
 	}
 	scanner.Scan()
 
@@ -57,10 +55,10 @@ func Ask(p *Prompt, v interface{}) error {
 		switch q.Type.(type) {
 		case Multiselect:
 			// Print question
-			fmt.Println(color.Cyan.Sprint(q.Message))
+			fmt.Println(Title.Sprint(q.Message))
 			// Print options
 			for _, ms := range q.Type.(Multiselect) {
-				fmt.Println(color.Red.Sprint("> ") + color.Yellow.Sprint(ms))
+				fmt.Println(InputChar.Sprint("> ") + MultiselectOptions.Sprint(ms))
 			}
 			// Get the answer
 			WriteAnswer(v, q.Name, Multiselector(q))

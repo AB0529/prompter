@@ -2,9 +2,16 @@ package prompter
 
 import (
 	"os"
+	"os/exec"
 	"syscall"
 	"unsafe"
 )
+
+func ClearScreen() {
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
 
 func CursorUp(n int) {
 	cursorMove(0, -n)

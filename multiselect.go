@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/eiannone/keyboard"
-	"github.com/gookit/color"
 )
 
 // Multiselector handles getting a result from a multiselector type question
@@ -55,7 +54,7 @@ loop:
 				fmt.Println()
 			}
 			answer = q.Type.(Multiselect)[i]
-			fmt.Println(color.Cyan.Sprint(answer))
+			fmt.Println(MultiselectAnswer.Sprint(answer))
 			break loop
 		}
 	}
