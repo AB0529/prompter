@@ -99,6 +99,7 @@ A validator is a function that will be called and tested on an input. If it fail
 ### Prebuilt Validators
 - `IsNumeric` - makes sure an input is numeric
 - `Required` - makes sure an input is not empty
+- `IsURL` - makes sure an input is a valid URL
 
 ### Constructing a Validator
 To construct a validator, simply make a function **exactly** like so:
