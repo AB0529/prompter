@@ -23,11 +23,11 @@ var (
 	// InputChar color of the "> "
 	InputChar = Red
 	// Title the title of questions
-	Title = Purple
+	Title = Cyan
 	// ValidateError value error from validator
 	ValidateError = White
 	// MultiselectOptions options for multiselect
 	MultiselectOptions = Yellow
 	// MultiselectAnswer answer selected
-	MultiselectAnswer = Cyan
+	MultiselectAnswer = Green
 )
