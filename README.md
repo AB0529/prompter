@@ -36,7 +36,6 @@ import (
 func main() {
 	questions := []*prompter.Question{
 		{
-			Message:   "What is your name?",
 			Name:      "name",
 			Validator: []prompter.Validator{prompter.Required},
 		},

@@ -1,4 +1,4 @@
-package prompter
+package main
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 // Required does not allow an empty value
 func Required(val interface{}) error {
 	if val == "" {
-		return errors.New("Value must be required")
+		return errors.New("value is required")
 	}
 
 	return nil

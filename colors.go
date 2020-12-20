@@ -1,4 +1,4 @@
-package prompter
+package main
 
 import "github.com/gookit/color"
 
@@ -25,7 +25,7 @@ var (
 	// Title the title of questions
 	Title = Cyan
 	// ValidateError value error from validator
-	ValidateError = White
+	ValidateError = Red
 	// MultiselectOptions options for multiselect
 	MultiselectOptions = Yellow
 	// MultiselectAnswer answer selected

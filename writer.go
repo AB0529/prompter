@@ -1,4 +1,4 @@
-package prompter
+package main
 
 import (
 	"errors"

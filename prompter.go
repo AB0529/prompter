@@ -1,4 +1,4 @@
-package prompter
+package main
 
 import (
 	"bufio"
@@ -6,105 +6,113 @@ import (
 	"os"
 )
 
-// TODO:
-// - Fix multiselect going out of bounds
-// - Multiselect allow for ctrl + to exit
+// Validator runs a function passed into it against the input of a prompt
+type Validator func(v interface{}) error
 
-// Multiselect select a single value in a list of multiple
-type Multiselect []string
-
-// Password empty struct to make it known it's a password
-type Password struct{}
-
-// YesNo empty struct to make it knowns it's a YesNo prompt
-type YesNo struct{}
-
-// Validator validates function passed into it, MUST RETURN ERROR
-type Validator func(ans interface{}) error
-
-// Question structure for a question that'll be asked
-type Question struct {
-	Message   string      `json:"message" binding:"required"`
-	Name      string      `json:"name" binding:"required"`
-	Validator []Validator `json:"validator,omitempty"`
-	Type      interface{} `json:"type,omitempty"`
+// Input type in which you are asked a prompt, and you provide a response
+type Input struct {
+	// Name will be later used to  find the answer
+	Name string
+	// Message the message to print
+	Message string
+	// Validators slice of validator types, runs response against all of these
+	Validators []Validator
 }
 
-// Prompt the promt which will ask the questions provided and get the answers
+// Password same as input type, but hides your typing while typing
+type Password struct {
+	// Name will be later used to  find the answer
+	Name string
+	// Message the message to print
+	Message string
+	// Validators slice of validator types, runs response against all of these
+	Validators []Validator
+}
+
+// Boolean asks a prompt that can only accept a y(es) or n(o) response
+type Boolean struct {
+	// Name will be later used to  find the answer
+	Name string
+	// Message the message to print
+	Message string
+	// Validators slice of validator types, runs response against all of these
+	Validators []Validator
+}
+
+// Multiselect type in which you select from options provided
+type Multiselect struct {
+	// Name will be later used to  find the answer
+	Name string
+	// Message the message to print
+	Message string
+	// Options the options to select from
+	Options []string
+	// Validators slice of validator types, runs response against all of these
+	Validators []Validator
+}
+
+// Prompt asks all the prompts provided and gets the responses
 type Prompt struct {
-	Questions []*Question
+	// Types the prompt types to ask and get response from
+	Types []interface{}
 }
 
-// Ask will actually ask the questions and get the answers
+// Ask will ask all the prompts provided and gather the response
 func Ask(p *Prompt, v interface{}) error {
-	var err error
-	var answer string
 	scanner := bufio.NewScanner(os.Stdin)
 
-	// TODO: Add validators for multiselect and yes no
-	for _, q := range p.Questions {
-		// Handle Multiselect
-		switch q.Type.(type) {
-		case Multiselect:
-			// Print question
-			fmt.Println(Title.Sprint(q.Message))
-			// Print options
-			for _, ms := range q.Type.(Multiselect) {
-				fmt.Println(InputChar.Sprint("> ") + MultiselectOptions.Sprint(ms))
-			}
-			// Get the answer
-			WriteAnswer(v, q.Name, Multiselector(q))
-			continue
-		case Password:
-		getPasswordAnswer:
-			answer, err = PasswordSelector(q, err)
-			for _, val := range q.Validator {
-				err = val(answer)
-
-				// Handle validator
-				if q.Validator != nil && err != nil {
-					goto getPasswordAnswer
-				}
-			}
-
-			WriteAnswer(v, q.Name, answer)
-			fmt.Println()
-			continue
-		// Yes no
-		case YesNo:
-		GetYesNoAnswer:
-			b, err := HandleYesNo(q, scanner, err)
-
+	// Loop through each type and handle it respectibly
+	for _, t := range p.Types {
+		switch t.(type) {
+		// Input type
+		case *Input:
+			resp, err := Inputer(t.(*Input), scanner)
+			err = WriteAnswer(v, t.(*Input).Name, resp)
 			if err != nil {
-				goto GetYesNoAnswer
+				panic(err)
 			}
-			WriteAnswer(v, q.Name, b)
 			continue
+		// Boolean
+		case *Boolean:
+			fmt.Println("BOOL")
+			continue
+		// Password
+		case *Password:
+			fmt.Println("PASS")
+			continue
+		// Multiselect
+		case *Multiselect:
+			fmt.Println("MULTI")
+			continue
+		default:
+			panic(fmt.Sprintf("%T is not a pointer", t))
 		}
-
-	getAnswer:
-		// Print the question
-		if err != nil {
-			fmt.Print(Title.Sprint(q.Message) + "\n" + fmt.Sprintf("[%s]", ValidateError.Sprint(err.Error())) + InputChar.Sprint(" > "))
-		} else {
-			fmt.Print(Title.Sprint(q.Message) + "\n" + InputChar.Sprint("> "))
-		}
-		scanner.Scan()
-
-		answer := scanner.Text()
-		for _, val := range q.Validator {
-			err = val(answer)
-
-			// Handle validator
-			if q.Validator != nil && err != nil {
-				goto getAnswer
-			}
-		}
-
-		// Load the answer
-		WriteAnswer(v, q.Name, answer)
-
 	}
 
 	return nil
+}
+
+func main() {
+	q := []interface{}{
+		&Input{
+			Name:       "1",
+			Message:    "Wadup",
+			Validators: []Validator{Required},
+		},
+		&Boolean{
+			Name:    "2",
+			Message: "You like balls?",
+		},
+		&Input{
+			Name:    "3",
+			Message: "Ayyy",
+		},
+	}
+	p := Prompt{
+		Types: q,
+	}
+	a := map[string]interface{}{}
+
+	Ask(&p, &a)
+	fmt.Println(a)
 }
