@@ -93,6 +93,8 @@ A `Question` type has fields you can provide.
         - See [Multiselect](#Multiselect).
     - `Password`
         - Hides an input being typed
+    - `YesNo`
+        -  Prompts for a boolean answer
 
 ## Validators
 A validator is a function that will be called and tested on an input. If it fails, the question will simply be asked again until it passes.

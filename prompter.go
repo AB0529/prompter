@@ -16,6 +16,9 @@ type Multiselect []string
 // Password empty struct to make it known it's a password
 type Password struct{}
 
+// YesNo empty struct to make it knowns it's a YesNo prompt
+type YesNo struct{}
+
 // Validator validates function passed into it, MUST RETURN ERROR
 type Validator func(ans interface{}) error
 
@@ -38,6 +41,7 @@ func Ask(p *Prompt, v interface{}) error {
 	var answer string
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// TODO: Add validators for multiselect and yes no
 	for _, q := range p.Questions {
 		// Handle Multiselect
 		switch q.Type.(type) {
@@ -65,6 +69,16 @@ func Ask(p *Prompt, v interface{}) error {
 
 			WriteAnswer(v, q.Name, answer)
 			fmt.Println()
+			continue
+		// Yes no
+		case YesNo:
+		GetYesNoAnswer:
+			b, err := HandleYesNo(q, scanner, err)
+
+			if err != nil {
+				goto GetYesNoAnswer
+			}
+			WriteAnswer(v, q.Name, b)
 			continue
 		}
 
