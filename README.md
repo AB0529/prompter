@@ -35,21 +35,21 @@ import (
 
 func main() {
 	questions := []interface{}{
-		&Input{
+		&prompter.Input{
 			Name:       "name",
 			Message:    "What is your name?",
-			Validators: []Validator{Required},
+			Validators: []prompter.Validator{prompter.Required},
 		},
-		&Boolean{
+		&prompter.Boolean{
 			Name:    "candy",
 			Message: "You like candy?",
 		},
-		&Password{
+		&prompter.Password{
 			Name:       "pass",
 			Message:    "What's your password?",
-			Validators: []Validator{Required},
+			Validators: []prompter.Validator{prompter.Required},
 		},
-		&Multiselect{
+		&prompter.Multiselect{
 			Name:    "color",
 			Message: "Color",
 			Options: []string{"Red", "Blue", "Green"},
@@ -62,9 +62,8 @@ func main() {
 		Color string
 	}{}
 
-	Ask(&Prompt{Types: q}, &answer)
+	prompter.Ask(&prompter.Prompt{Types: questions}, &answer)
 	fmt.Println(answer)
-}
 ```
 
 # Usage
