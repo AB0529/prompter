@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 )
 
@@ -38,4 +39,46 @@ PrintQuestion:
 	}
 
 	return resp, nil
+}
+
+// Booleaner will handle the boolean type and get the response
+func Booleaner(t *Boolean, scanner *bufio.Scanner) (bool, error) {
+	var err error
+PrintQuestion:
+	// Print question
+	if err != nil {
+		fmt.Printf(fmt.Sprintf("[%s] ", BooleanPrompt.Sprint("Y/N")))
+		printQuestionWithError(t.Message, err)
+	} else {
+		fmt.Printf(fmt.Sprintf("[%s] ", BooleanPrompt.Sprint("Y/N")))
+		printQuestion(t.Message)
+	}
+	scanner.Scan()
+
+	// Get response
+	resp := scanner.Text()
+
+	// Handle validators with response
+	for _, val := range t.Validators {
+		// Run the validator function
+		err = val(resp)
+		if err != nil {
+			goto PrintQuestion
+		}
+	}
+
+	if resp == "" {
+		return true, nil
+	}
+
+	switch string(resp[0]) {
+	case "y":
+		return true, nil
+	case "n":
+		return false, nil
+	default:
+		err = errors.New("Value unknown")
+		goto PrintQuestion
+	}
+
 }

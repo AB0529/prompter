@@ -74,7 +74,11 @@ func Ask(p *Prompt, v interface{}) error {
 			continue
 		// Boolean
 		case *Boolean:
-			fmt.Println("BOOL")
+			resp, err := Booleaner(t.(*Boolean), scanner)
+			err = WriteAnswer(v, t.(*Boolean).Name, resp)
+			if err != nil {
+				panic(err)
+			}
 			continue
 		// Password
 		case *Password:

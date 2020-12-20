@@ -30,4 +30,6 @@ var (
 	MultiselectOptions = Yellow
 	// MultiselectAnswer answer selected
 	MultiselectAnswer = Green
+	// BooleanPrompt color for boolean [Y/N]
+	BooleanPrompt = Yellow
 )
