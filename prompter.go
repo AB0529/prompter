@@ -97,7 +97,7 @@ func Ask(p *Prompt, v interface{}) error {
 			}
 			continue
 		default:
-			panic(fmt.Sprintf("%T is not a pointer", t))
+			panic(fmt.Sprintf("%T is not a pointer or a valid type", t))
 		}
 	}
 

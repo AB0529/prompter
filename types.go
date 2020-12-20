@@ -172,6 +172,7 @@ loop:
 			ansi.CursorDown(1)
 			break
 		case keyboard.KeyCtrlC:
+			keyboard.Close()
 			os.Exit(0)
 		default:
 			// Load the answer on any other keypress
