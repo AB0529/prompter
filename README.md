@@ -71,10 +71,10 @@ func main() {
 To ask questions, you'll need to provide a slice of empty interfaces with the question types like so:
 ```go
 questions := []interface{}{
-    &Input{
+    &prompter.Input{
         Name:       "name",
         Message:    "What is your name?",
-        Validators: []Validator{Required},
+        Validators: []prompter.Validator{prompter.Required},
     },
 }
 ```
@@ -126,11 +126,11 @@ The options provided must be a **slice of strings**.
 ### Example
 ```go
 questions := []interface{}{
-    &Multiselect{
+    &prompter.Multiselect{
         Name:       "color",
         Message:   "What color you like?",
         Options:    []string{"Red", "Green", "Blue"},
-        Validators: []Validator{Required},
+        Validators: []prompter.Validator{prompter.Required},
     },
 }
 ```
