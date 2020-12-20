@@ -7,7 +7,7 @@ Heavily insprired by [Survey](https://github.com/AlecAivazis/survey).
 1. [Quick Start](#quick-start)
 1. [Usage](#usage)
     - [Forming Quesitons](#forming-questions)
-        -   [Validators](#validators)
+        -  [Validators](#validators)
         - [Multiselect](#multiselect)
     - [Getting Answers](#getting-answers)
         - [Structs](#ex-1-answer-structs)
@@ -34,66 +34,69 @@ import (
 )
 
 func main() {
-	questions := []*prompter.Question{
-		{
-			Name:      "name",
-			Validator: []prompter.Validator{prompter.Required},
+	questions := []interface{}{
+		&Input{
+			Name:       "name",
+			Message:    "What is your name?",
+			Validators: []Validator{Required},
 		},
-		{
-			Message:     "What color?",
-			Name:        "color",
-			Type: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+		&Boolean{
+			Name:    "candy",
+			Message: "You like candy?",
 		},
-		{
-			Message:   "What is your age?",
-			Name:      "age",
-			Validator: []prompter.Validator{prompter.Required, prompter.IsNumeric},
+		&Password{
+			Name:       "pass",
+			Message:    "What's your password?",
+			Validators: []Validator{Required},
+		},
+		&Multiselect{
+			Name:    "color",
+			Message: "Color",
+			Options: []string{"Red", "Blue", "Green"},
 		},
 	}
-	answers := struct {
+	answer := struct {
 		Name  string
+		Candy bool
+		Pass  string
 		Color string
-		Age   int
 	}{}
 
-	err := prompter.Ask(&prompter.Prompt{Questions: questions}, &answers)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("Your name is %s, you are %d old, and your favourite color is %s!\n", answers.Name, answers.Age, answers.Color)
+	Ask(&Prompt{Types: q}, &answer)
+	fmt.Println(answer)
 }
 ```
 
 # Usage
 ## Forming Questions
-To ask questions, the prompter will need a slice of pointer questions to ask. Like so:
+To ask questions, you'll need to provide a slice of empty interfaces with the question types like so:
 ```go
-questions := []*prompter.Question{
-    {
-        Message:   "What is your name?",
-        Name:      "name",
-		Validator: []prompter.Validator{prompter.Required},
+questions := []interface{}{
+    &Input{
+        Name:       "name",
+        Message:    "What is your name?",
+        Validators: []Validator{Required},
     },
 }
 ```
-A `Question` type has fields you can provide.
+There are multiple types, each aimed at a different style of prompts.
+- `Types`
+    - `Input`
+        - Asks for a prompt and gets the response
+    - `Password`
+        - Hides an input being typed
+    - `Boolean`
+        -  Prompts for a y(es)/n(o) answer
+    - `Multiselect`
+        - See [Multiselect](#Multiselect).
+
+Each type has fields you can provide.
 - `Message`
     - This is the message that will be prompted to the user.
 - `Name`
     - This will be used to identify your question with the answers.
-- `Validator`
-    - An optional field passed into the question.
+- `Validators`
     - See [Validators](#Validators).
-- `Type`
-    - `Multiselect`
-        - An optional field passed into the question.
-        - See [Multiselect](#Multiselect).
-    - `Password`
-        - Hides an input being typed
-    - `YesNo`
-        -  Prompts for a boolean answer
 
 ## Validators
 A validator is a function that will be called and tested on an input. If it fails, the question will simply be asked again until it passes.
@@ -123,11 +126,12 @@ The options provided must be a **slice of strings**.
 
 ### Example
 ```go
-questions := []*prompter.Question{
-    {
-        Message: "What color?",
-        Name: "color",
-        Type: prompter.Multiselect{"Red", "Green", "Blue", "Purple"},
+questions := []interface{}{
+    &Multiselect{
+        Name:       "color",
+        Message:   "What color you like?",
+        Options:    []string{"Red", "Green", "Blue"},
+        Validators: []Validator{Required},
     },
 }
 ```
@@ -139,19 +143,20 @@ To get usable answers after the questions are asked, you need to call the `promp
 
 ### Ex. 1) Answer Structs
 ```go
-answers := struct {
+answer := struct {
     Name  string
+    Candy bool
+    Pass  string
     Color string
-    Age   int
 }{}
-err := prompter.Ask(&prompter.Prompt{Questions: questions}, &answers)
+prompter.Ask(&prompter.Prompt{Types: questions}, &answer)
 
 fmt.Println(answers.Name)
 ```
 ### Ex. 2) Answer Maps
 ```go
 answers := map[string]interface{}{}
-err := prompter.Ask(&prompter.Prompt{Questions: questions}, &answers)
+prompter.Ask(&prompter.Prompt{Types: questions}, &answers)
 
 fmt.Println(answers["name"])
 ```

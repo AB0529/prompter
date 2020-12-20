@@ -1,4 +1,4 @@
-package main
+package prompter
 
 import (
 	"bufio"
@@ -102,35 +102,4 @@ func Ask(p *Prompt, v interface{}) error {
 	}
 
 	return nil
-}
-
-func main() {
-	q := []interface{}{
-		&Input{
-			Name:       "1",
-			Message:    "Wadup",
-			Validators: []Validator{Required},
-		},
-		&Boolean{
-			Name:    "2",
-			Message: "You like balls?",
-		},
-		&Password{
-			Name:       "3",
-			Message:    "Password",
-			Validators: []Validator{Required},
-		},
-		&Multiselect{
-			Name:    "3",
-			Message: "Color",
-			Options: []string{"Red", "Blue", "Green"},
-		},
-	}
-	p := Prompt{
-		Types: q,
-	}
-	a := map[string]interface{}{}
-
-	Ask(&p, &a)
-	fmt.Println(a)
 }
