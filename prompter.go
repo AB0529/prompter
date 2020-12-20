@@ -82,11 +82,19 @@ func Ask(p *Prompt, v interface{}) error {
 			continue
 		// Password
 		case *Password:
-			fmt.Println("PASS")
+			resp, err := Passworder(t.(*Password))
+			err = WriteAnswer(v, t.(*Password).Name, resp)
+			if err != nil {
+				panic(err)
+			}
 			continue
 		// Multiselect
 		case *Multiselect:
-			fmt.Println("MULTI")
+			resp, err := Multiselecter(t.(*Multiselect))
+			err = WriteAnswer(v, t.(*Multiselect).Name, resp)
+			if err != nil {
+				panic(err)
+			}
 			continue
 		default:
 			panic(fmt.Sprintf("%T is not a pointer", t))
@@ -107,9 +115,15 @@ func main() {
 			Name:    "2",
 			Message: "You like balls?",
 		},
-		&Input{
+		&Password{
+			Name:       "3",
+			Message:    "Password",
+			Validators: []Validator{Required},
+		},
+		&Multiselect{
 			Name:    "3",
-			Message: "Ayyy",
+			Message: "Color",
+			Options: []string{"Red", "Blue", "Green"},
 		},
 	}
 	p := Prompt{
