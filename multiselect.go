@@ -2,6 +2,7 @@ package prompter
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/eiannone/keyboard"
 	"github.com/k0kubun/go-ansi"
@@ -50,6 +51,8 @@ loop:
 			}
 			ansi.CursorDown(1)
 			break
+		case keyboard.KeyCtrlC:
+			os.Exit(0)
 		default:
 			// Load the answer on any other keypress
 			fmt.Print("\r")
