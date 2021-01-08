@@ -147,12 +147,13 @@ PrintQuestion:
 loop:
 	for {
 		// Handle key presses
-		r, key, err := keyboard.GetKey()
+		_, key, err := keyboard.GetKey()
 		if err != nil {
 			panic(err)
 		}
 		// Move arrow key up, and approitate answer
 		switch key {
+		case keyboard.KeyCtrlJ:
 		case keyboard.KeyArrowUp:
 			i--
 			if i < 0 {
@@ -162,7 +163,8 @@ loop:
 
 			ansi.CursorUp(1)
 			break
-		// Move arrow key down, and approitate answer
+			// Move arrow key down, and approitate answer
+		case keyboard.KeyCtrlK:
 		case keyboard.KeyArrowDown:
 			i++
 			if i > l-1 {
@@ -172,40 +174,6 @@ loop:
 			ansi.CursorDown(1)
 			break
 		case keyboard.KeyCtrlC:
-			keyboard.Close()
-			os.Exit(0)
-		default:
-			// Load the answer on any other keypress
-			fmt.Print("\r")
-			for j := l; j > i; j-- {
-				fmt.Println()
-			}
-			resp = t.Options[i]
-			fmt.Println(MultiselectAnswer.Sprint(resp))
-			break loop
-		}
-		// Move arrow key up, and approitate answer
-		fmt.Println(r)
-		switch r {
-		case 'j':
-			i--
-			if i < 0 {
-				i++
-				continue
-			}
-
-			ansi.CursorUp(1)
-			break
-		// Move arrow key down, and approitate answer
-		case 'k':
-			i++
-			if i > l-1 {
-				i = l - 1
-				continue
-			}
-			ansi.CursorDown(1)
-			break
-		case 'c':
 			keyboard.Close()
 			os.Exit(0)
 		default:
