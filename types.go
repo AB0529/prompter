@@ -147,7 +147,7 @@ PrintQuestion:
 loop:
 	for {
 		// Handle key presses
-		_, key, err := keyboard.GetKey()
+		r, key, err := keyboard.GetKey()
 		if err != nil {
 			panic(err)
 		}
@@ -172,6 +172,39 @@ loop:
 			ansi.CursorDown(1)
 			break
 		case keyboard.KeyCtrlC:
+			keyboard.Close()
+			os.Exit(0)
+		default:
+			// Load the answer on any other keypress
+			fmt.Print("\r")
+			for j := l; j > i; j-- {
+				fmt.Println()
+			}
+			resp = t.Options[i]
+			fmt.Println(MultiselectAnswer.Sprint(resp))
+			break loop
+		}
+		// Move arrow key up, and approitate answer
+		switch r {
+		case 'j':
+			i--
+			if i < 0 {
+				i++
+				continue
+			}
+
+			ansi.CursorUp(1)
+			break
+		// Move arrow key down, and approitate answer
+		case 'k':
+			i++
+			if i > l-1 {
+				i = l - 1
+				continue
+			}
+			ansi.CursorDown(1)
+			break
+		case 'c':
 			keyboard.Close()
 			os.Exit(0)
 		default:
