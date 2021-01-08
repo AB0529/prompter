@@ -153,7 +153,7 @@ loop:
 		}
 		// Move arrow key up, and approitate answer
 		switch key {
-		case keyboard.KeyCtrlJ:
+		case keyboard.KeyCtrlW:
 		case keyboard.KeyArrowUp:
 			i--
 			if i < 0 {
@@ -164,7 +164,7 @@ loop:
 			ansi.CursorUp(1)
 			break
 			// Move arrow key down, and approitate answer
-		case keyboard.KeyCtrlK:
+		case keyboard.KeyCtrlS:
 		case keyboard.KeyArrowDown:
 			i++
 			if i > l-1 {
