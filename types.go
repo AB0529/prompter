@@ -185,6 +185,7 @@ loop:
 			break loop
 		}
 		// Move arrow key up, and approitate answer
+		fmt.Println(r)
 		switch r {
 		case 'j':
 			i--
